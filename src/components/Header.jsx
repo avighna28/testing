@@ -36,12 +36,28 @@ const Header = () => {
   return (
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="container header-container">
-        <Link to="/" className="logo">
-          <img src="/assets/logo.png" alt="MFC Logo" className="header-logo" />
-          <div className="logo-text">
-            MFC<span>.</span>
-          </div>
-        </Link>
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <Link to="/" className="logo">
+            <img 
+              src="/assets/logo.png" 
+              alt="MFC Logo" 
+              className="header-logo" 
+              fetchPriority="high"
+              loading="eager"
+            />
+            <div className="logo-text">
+              MFC<motion.span 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 1 }}
+              >.</motion.span>
+            </div>
+          </Link>
+        </motion.div>
 
         <nav className="desktop-nav">
           {navLinks.map((link) => (
