@@ -5,19 +5,20 @@ const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    // If there is no hash, scroll to top
-    if (!hash) {
-      window.scrollTo(0, 0);
-    } else {
-      // If there is a hash, scroll to the element
-      const id = hash.replace('#', '');
-      const element = document.getElementById(id);
-      if (element) {
-        setTimeout(() => {
-           element.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
+    // Small delay to ensure the page has rendered and animations have started
+    const timeout = setTimeout(() => {
+      if (hash) {
+        const id = hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'instant' });
       }
-    }
+    }, 300); // 300ms is usually the sweet spot for React mount
+
+    return () => clearTimeout(timeout);
   }, [pathname, hash]);
 
   return null;
